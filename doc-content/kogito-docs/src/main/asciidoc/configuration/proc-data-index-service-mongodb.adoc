@@ -1,0 +1,44 @@
+[id='proc-data-index-service-mongodb_{context}']
+= Enabling MongoDB persistence for {PRODUCT} Data Index Service
+
+Instead of the default Infinispan-based persistence, you can choose to store the data for {PRODUCT} Data Index Service in MongoDB persistence store.
+
+.Prerequisites
+* https://www.mongodb.com/[MongoDB Server] 3.6 or later is installed and running. For information about MongoDB installation and configuration, see the https://docs.mongodb.com/manual/installation/[MongoDB documentation].
+
+.Procedure
+--
+NOTE: Please refer to https://quarkus.io/guides/config#overriding-properties-at-runtime[Quarkus documentation] for options of setting configuration properties.
+--
+. Set following configuration property to enable MongoDB persistence.
++
+--
+[source]
+----
+kogito.persistence.type=mongodb
+----
+--
+
+. Set following configuration property to configure the connection to the Infinispan Server.
++
+--
+Replace the server host and port information according to your MongoDB Server installation.
+
+[source]
+----
+quarkus.mongodb.connection-string=mongodb://localhost:27017
+----
+--
+
+. Set following configuration property to configure the database name.
++
+--
+[source]
+----
+quarkus.mongodb.database=kogito
+----
+--
+
+NOTE: Data Index Service uses Quarkus MongoDB Client for MongoDB persistence support. Please refer to https://quarkus.io/guides/mongodb#quarkus-mongodb_configuration[Quarkus MongoDB documentation] for the list of all the supported configuration.
+
+NOTE: Indexes are created on the every attribute that is annotated with `@Indexed` and `@Field` in the protobuf files. However, a single MongoDB collection can have no more than 64 indexes, including the default `_id` Index.
